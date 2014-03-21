@@ -1,5 +1,8 @@
 package hlg.game.learing.main;
 
+import hlg.game.learing.animation.AnimationGame;
+import hlg.game.learing.font.FontGame;
+import hlg.game.learing.mario.MarioGame;
 import hlg.game.learing.texture.TextureGame;
 import android.os.Bundle;
 
@@ -17,7 +20,7 @@ public class Main extends AndroidApplication {
 		//cfg.useGL20 = true;
 		
 		//this.ini
-		this.initialize(new TextureGame(), true);
+		this.initialize(new MarioGame(), true);
 	}
 
 }
