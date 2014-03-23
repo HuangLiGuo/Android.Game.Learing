@@ -17,6 +17,8 @@ public class GameStage extends Stage {
 		TextureRegion backdropRegion;
 		Image mushroom;
 		TextureRegion mushRegion;
+		
+		private float ScaleX, ScaleY;
 
 		public GameStage() {
 			this.init();
@@ -27,17 +29,21 @@ public class GameStage extends Stage {
 			texture = new Texture(Gdx.files.internal("mario/object.png"));
 			backdropRegion = new TextureRegion(texture, 512, 256, 512, 128);
 			backdrop = new Image(backdropRegion);
+			this.ScaleX = (float)Gdx.graphics.getWidth() / backdrop.getWidth();
+			this.ScaleY = (float)Gdx.graphics.getHeight() / backdrop.getHeight();
 			mushRegion = new TextureRegion(texture, 204, 0, 102, 85);
 			mushroom = new Image(mushRegion);
 
 			mario = new Mario(100, 190);
-			backdrop.setPosition(0, 170);
+			backdrop.setPosition(0, 0);
+			backdrop.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			mushroom.setPosition(290, 60);
 
 			this.addActor(backdrop);
 			this.addActor(mario);
 			this.addActor(mario.buttonL);
 			this.addActor(mario.buttonR);
+			this.addActor(mario.buttonB);
 			this.addActor(mushroom);
 			mushroom.addListener(new InputListener(){
 				@Override

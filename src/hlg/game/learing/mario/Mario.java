@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -22,11 +23,14 @@ public class Mario extends Actor {
 
 	ImageButton buttonL;
 	ImageButton buttonR;
+	ImageButton buttonB;
 
 	Animation aniRight;
 	Animation aniLeft;
 	Animation aniIdle;
-	
+	TextureRegion[][] spilt;
+	TextureRegion[][] miror;
+	TextureRegion[] regionI;
 	
 	public static int LeftState  = 1;
 	public static int IdeltState = 2;
@@ -42,10 +46,9 @@ public class Mario extends Actor {
 
 	public void show() {
 		texture = new Texture(Gdx.files.internal("mario/mario.png"));
-		TextureRegion[][] spilt = TextureRegion.split(texture, 64, 64);
-		TextureRegion[][] miror = TextureRegion.split(texture, 64, 64);
+		spilt = TextureRegion.split(texture, 64, 64);
+		miror = TextureRegion.split(texture, 64, 64);
 		for (TextureRegion[] region1 : miror) {
-
 			for (TextureRegion region2 : region1) {
 				region2.flip(true, false);
 			}
@@ -64,25 +67,55 @@ public class Mario extends Actor {
 		regionL[2] = miror[0][0];
 		aniLeft = new Animation(0.1f, regionL);
 		// ¿ÕÏÐ
-		TextureRegion[] regionI = new TextureRegion[1];
+		regionI = new TextureRegion[1];
 		regionI[0] = spilt[0][0];
 
 		aniIdle = new Animation(0.1f, regionI);
 
 		buttonL = new ImageButton(new TextureRegionDrawable(spilt[1][0]),
 				new TextureRegionDrawable(spilt[1][1]));
+		
+		buttonB = new ImageButton(new TextureRegionDrawable(spilt[1][0]),
+				new TextureRegionDrawable(spilt[1][1]));
+		buttonB.setPosition(20, Gdx.graphics.getHeight() - this.buttonB.getHeight());
+		buttonB.addListener(new InputListener(){
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				if(x > buttonB.getWidth() || x < 0
+						|| y < 0 || y > buttonB.getHeight()) {
+					
+				} else {
+					Constants.Stageflag = Constants.StartStageOn;
+				}
+				return;
+				//super.touchUp(event, x, y, pointer, button);
+			}
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				//Constants.Stageflag = Constants.StartStageOn;
+				//return true;
+				//super.touchDown(event, x, y, pointer, button);
+				return true;
+				//return true;
+			}
+		});
+		
 		buttonR = new ImageButton(new TextureRegionDrawable(miror[1][0]),
 				new TextureRegionDrawable(miror[1][1]));
 
 		buttonL.setPosition(20, 20);
 		buttonR.setPosition(100, 20);
-
+		
 		buttonL.addListener(new InputListener() {
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				state = IdeltState;
+				regionI[0] = miror[0][0];
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -100,6 +133,7 @@ public class Mario extends Actor {
 					int pointer, int button) {
 				// TODO Auto-generated method stub
 				state = IdeltState;
+				regionI[0] = spilt[0][0];
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -145,11 +179,4 @@ public class Mario extends Actor {
 			
 			batch.draw(currentFrame, x, y);
 	}
-
-	@Override
-	public void act(float delta) {
-		// TODO Auto-generated method stub
-		super.act(delta);
-	}
-	
 }
