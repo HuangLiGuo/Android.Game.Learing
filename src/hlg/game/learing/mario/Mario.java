@@ -171,6 +171,33 @@ public class Mario extends Actor {
 	}
 	
 	
+	
+	@Override
+	public float getX() {
+		// TODO Auto-generated method stub
+		return this.x;
+	}
+
+	@Override
+	public float getY() {
+		// TODO Auto-generated method stub
+		return this.y;
+	}
+
+	@Override
+	public void setX(float x) {
+		// TODO Auto-generated method stub
+		this.x = x;
+		super.setX(x);
+	}
+
+	@Override
+	public void setY(float y) {
+		// TODO Auto-generated method stub
+		this.y = y;
+		super.setY(y);
+	}
+
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 			statetime+=Gdx.graphics.getDeltaTime();
