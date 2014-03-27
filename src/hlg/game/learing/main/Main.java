@@ -2,6 +2,7 @@ package hlg.game.learing.main;
 
 import hlg.game.learing.animation.AnimationGame;
 import hlg.game.learing.camera.CameraGame;
+import hlg.game.learing.camera.CameraTest;
 import hlg.game.learing.changscreen.ScreenGame;
 import hlg.game.learing.font.FontGame;
 import hlg.game.learing.mario.MarioGame;
@@ -23,7 +24,7 @@ public class Main extends AndroidApplication {
 		//cfg.useGL20 = true;
 		//Gdx.gl20.
 		//this.initialize(new ScreenGame(), true);
-		this.initialize(new CameraGame(), true);
+		this.initialize(new CameraTest(), true);
 	}
 
 }

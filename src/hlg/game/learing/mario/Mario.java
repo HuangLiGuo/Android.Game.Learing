@@ -203,7 +203,6 @@ public class Mario extends Actor {
 			statetime+=Gdx.graphics.getDeltaTime();
 			this.update();
 			this.aniCheck();
-			
 			batch.draw(currentFrame, x, y);
 	}
 }

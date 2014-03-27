@@ -57,7 +57,6 @@ public class AoLaiGuoScreen implements Screen, GestureListener  {
 		// TODO Auto-generated method stub
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Gdx.gl.glClearColor(1, 1, 1, 1);
-		//this.screenCamera.Translation(-1, 1);
 		this.stage.draw();
 	}
 
@@ -87,6 +86,7 @@ public class AoLaiGuoScreen implements Screen, GestureListener  {
 	@Override
 	public boolean fling(float arg0, float arg1, int arg2) {
 		// TODO Auto-generated method stub
+		//this.screenCamera.Translation(-arg0, arg1);
 		return false;
 	}
 
@@ -123,6 +123,7 @@ public class AoLaiGuoScreen implements Screen, GestureListener  {
 	@Override
 	public boolean zoom(float arg0, float arg1) {
 		// TODO Auto-generated method stub
+		this.screenCamera.setScale(arg1/arg0);
 		return false;
 	}
 
