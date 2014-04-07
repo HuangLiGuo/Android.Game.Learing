@@ -1,17 +1,10 @@
 package hlg.game.learing.main;
 
-import hlg.game.learing.animation.AnimationGame;
+import hlg.game.learing.camera.ActionGame;
 import hlg.game.learing.camera.CameraGame;
-import hlg.game.learing.camera.CameraTest;
-import hlg.game.learing.changscreen.ScreenGame;
-import hlg.game.learing.font.FontGame;
-import hlg.game.learing.mario.MarioGame;
-import hlg.game.learing.texture.TextureGame;
 import android.os.Bundle;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
-import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 public class Main extends AndroidApplication {
 
@@ -22,9 +15,8 @@ public class Main extends AndroidApplication {
 		
 		//AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
 		//cfg.useGL20 = true;
-		//Gdx.gl20.
-		//this.initialize(new ScreenGame(), true);
-		this.initialize(new CameraTest(), true);
+		
+		this.initialize(new CameraGame(), true);
 	}
 
 }

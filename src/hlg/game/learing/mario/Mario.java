@@ -3,12 +3,14 @@ package hlg.game.learing.mario;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
@@ -21,9 +23,11 @@ public class Mario extends Actor {
 	Texture texture;
 	TextureRegion currentFrame;
 
-	ImageButton buttonL;
-	ImageButton buttonR;
-	ImageButton buttonB;
+	public ImageButton buttonL;
+	public ImageButton buttonR;
+	public ImageButton buttonT;
+	public ImageButton buttonBottom;
+	public ImageButton buttonB;
 
 	Animation aniRight;
 	Animation aniLeft;
@@ -35,12 +39,16 @@ public class Mario extends Actor {
 	public static int LeftState  = 1;
 	public static int IdeltState = 2;
 	public static int RightState = 3;
+	public static int TopState = 4;
+	public static int ButtomState = 5;
 	public static int state = 2;
 
 	
 	public Mario(float x, float y) {
 		this.x = x;
 		this.y = y;
+		this.setX(x);
+		this.setY(y);
 		this.show();
 	}
 
@@ -77,6 +85,8 @@ public class Mario extends Actor {
 		
 		buttonB = new ImageButton(new TextureRegionDrawable(spilt[1][0]),
 				new TextureRegionDrawable(spilt[1][1]));
+		
+		
 		buttonB.setPosition(20, Gdx.graphics.getHeight() - this.buttonB.getHeight());
 		buttonB.addListener(new InputListener(){
 			@Override
@@ -106,8 +116,20 @@ public class Mario extends Actor {
 		buttonR = new ImageButton(new TextureRegionDrawable(miror[1][0]),
 				new TextureRegionDrawable(miror[1][1]));
 
-		buttonL.setPosition(20, 20);
-		buttonR.setPosition(100, 20);
+		buttonT = new ImageButton(new TextureRegionDrawable(miror[1][0]),
+				new TextureRegionDrawable(miror[1][1]));
+		buttonT.setOrigin(miror[1][0].getRegionWidth() / 2, miror[1][0].getRegionHeight() / 2);
+		buttonT.setRotation(90);
+		
+		buttonBottom = new ImageButton(new TextureRegionDrawable(miror[1][0]),
+				new TextureRegionDrawable(miror[1][1]));
+		buttonBottom.setOrigin(miror[1][0].getRegionWidth() / 2, miror[1][0].getRegionHeight() / 2);
+		buttonBottom.setRotation(-90);
+		
+		buttonL.setPosition(20, 40);
+		buttonR.setPosition(100, 40);
+		buttonT.setPosition(60, 90);
+		buttonBottom.setPosition(60, 0);
 		
 		buttonL.addListener(new InputListener() {
 
@@ -147,17 +169,57 @@ public class Mario extends Actor {
 
 		});
 
+		buttonT.addListener(new InputListener(){
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// TODO Auto-generated method stub
+				state = IdeltState;
+				regionI[0] = spilt[0][0];
+				super.touchUp(event, x, y, pointer, button);
+			}
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// TODO Auto-generated method stub
+				state = TopState;
+				return true;
+			}
+		});
+		
+		buttonBottom.addListener(new InputListener(){
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// TODO Auto-generated method stub
+				state = IdeltState;
+				regionI[0] = spilt[0][0];
+				super.touchUp(event, x, y, pointer, button);
+			}
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// TODO Auto-generated method stub
+				state = ButtomState;
+				return true;
+			}
+		});
 	}
 	
 	public void update(){
 		if(state == LeftState){
 			this.x -=1.5f;
-			if(x<20) this.x = 20;
+			//if(x<20) this.x = 20;
 		}else if(state == RightState){
 			this.x +=1.5f;
-			if(x>400) this.x = 400;
+			//if(x>400) this.x = 400;
+		}else if(state == TopState) {
+			this.y += 1.5f;
+		}else if(state == ButtomState) {
+			this.y -= 1.5f;
 		}
-		this.x = x;
 	}
 	
 	public void aniCheck(){
@@ -167,10 +229,13 @@ public class Mario extends Actor {
 			currentFrame = aniRight.getKeyFrame(statetime, true);
 		}else if (state == IdeltState) {
 			currentFrame = aniIdle.getKeyFrame(statetime,true);
+		} else if(state == TopState) {
+			currentFrame = aniLeft.getKeyFrame(statetime, true);
+		} else {
+			currentFrame = aniRight.getKeyFrame(statetime, true);
 		}
 	}
-	
-	
+
 	
 	@Override
 	public float getX() {
@@ -203,6 +268,6 @@ public class Mario extends Actor {
 			statetime+=Gdx.graphics.getDeltaTime();
 			this.update();
 			this.aniCheck();
-			batch.draw(currentFrame, x, y);
+			batch.draw(currentFrame, super.getX(), super.getY());
 	}
 }
